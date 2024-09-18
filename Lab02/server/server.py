@@ -37,7 +37,7 @@ class ChatServer:
                 else:
                     self.add_message(message)
                     self.broadcast_message(f"New message: {message}", client_socket)
-            except ConnectionResetError:
+            except (ConnectionResetError, BrokenPipeError):
                 break
 
         # Remove client from list on disconnect
@@ -51,9 +51,15 @@ class ChatServer:
     def send_all_messages(self, client_socket):
         # Send all stored messages to a specific client
         for content, timestamp in self.messages:
-            client_socket.sendall(f"[{timestamp}] {content}".encode())
-            # Wait briefly to avoid socket buffer overflow
-            threading.Event().wait(0.1)
+            try:
+                client_socket.sendall(f"[{timestamp}] {content}".encode())
+                # Wait briefly to avoid socket buffer overflow
+                threading.Event().wait(0.1)
+            except (ConnectionResetError, BrokenPipeError):
+                # Handle client disconnection
+                print(f"Failed to send messages to a client. Removing client.")
+                self.clients.remove(client_socket)
+                break
 
     def broadcast_message(self, message, sender_socket=None):
         # Send message to all connected clients except the sender
@@ -61,8 +67,10 @@ class ChatServer:
             if client != sender_socket:
                 try:
                     client.sendall(message.encode())
-                except Exception as e:
-                    print(f"Error broadcasting to a client: {e}")
+                except (ConnectionResetError, BrokenPipeError):
+                    # Handle client disconnection
+                    print(f"Failed to broadcast message to a client. Removing client.")
+                    self.clients.remove(client)
 
 if __name__ == "__main__":
     server = ChatServer()
