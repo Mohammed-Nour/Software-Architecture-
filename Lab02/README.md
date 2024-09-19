@@ -135,17 +135,7 @@ cd tests
 
 ## Ideas for Improvement
 
-- **Message Persistence**: Introduce a database to store messages permanently instead of keeping them in memory.
+- **Message Persistence**: Introduce a database to store messages permanently instead of keeping them in memory, so every time users reconnect, history keeps saved.
 - **Security**: Implement message encryption to ensure secure communication between clients and the server.
-- **User Interface**: Develop a graphical user interface (GUI) for a more user-friendly client experience.
+- **User Interface**: Develop a graphical user interface (GUI) (website, telegram bot, etc.) for a more user-friendly client experience.
 - **Enhanced Error Handling**: Improve error handling to gracefully manage network issues and client disconnections.
-
-## Notes
-
-- The current implementation is basic and focuses on demonstrating fundamental client-server communication.
-- The system uses TCP sockets for communication and multithreading on the server side to handle multiple clients.
-- Modify host and port settings in `server.py` and `client.py` as needed to fit your network configuration.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
