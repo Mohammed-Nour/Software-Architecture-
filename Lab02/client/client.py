@@ -13,7 +13,7 @@ class ChatClient:
     Connects to the server, sends messages, and listens for broadcasts.
     """
 
-    def __init__(self, host='127.0.0.1', port=65432):
+    def __init__(self, host='127.0.0.1', port=20_000):
         """
         Initializes the ChatClient with a host and port.
 
