@@ -1,4 +1,4 @@
-astroid==3.3.2
+astroid
 colorama==0.4.6
 dill==0.3.8
 geographiclib==2.0
