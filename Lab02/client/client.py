@@ -6,11 +6,13 @@ Connects to the server, sends messages, and listens for broadcasts.
 import socket
 import threading
 
+
 class ChatClient:
     """
     A class to represent the chat client.
     Connects to the server, sends messages, and listens for broadcasts.
     """
+
     def __init__(self, host='127.0.0.1', port=65432):
         """
         Initializes the ChatClient with a host and port.
@@ -61,16 +63,17 @@ class ChatClient:
         """
         self.client_socket.close()
 
+
 if __name__ == "__main__":
     client = ChatClient()
     client.connect()
 
     while True:
         user_input = input(
-            "Enter message ('/count' to get message count, '/show' to display all messages, 'quit' to exit): "
+            "Enter message ('/count' to get message count,"
+            " '/show' to display all messages, 'quit' to exit): "
         )
         if user_input.lower() == 'quit':
             client.close()
             break
         client.send_message(user_input)
-
