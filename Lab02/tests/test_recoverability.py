@@ -3,11 +3,17 @@ import socket
 import subprocess
 import signal
 import platform
-
+import os
 
 HOST = '127.0.0.1'
 PORT = 20_000
 server_process = None  # Global variable to keep track of the server process
+
+# Get the current directory of this script
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the absolute path to the server script
+server_script_path = os.path.join(current_directory, "server", "server.py")
 
 
 def is_server_alive():
@@ -35,9 +41,9 @@ def simulate_crash():
 def start_server():
     global server_process
     if platform.system() == 'Windows':
-        server_process = subprocess.Popen(["python", "../server/server.py"], creationflags=subprocess.CREATE_NEW_CONSOLE)
+        server_process = subprocess.Popen(["python", server_script_path], creationflags=subprocess.CREATE_NEW_CONSOLE)
     else:
-        server_process = subprocess.Popen(["python3", "../server/server.py"])
+        server_process = subprocess.Popen(["python3", server_script_path])
 
 
 def test_recoverability():
