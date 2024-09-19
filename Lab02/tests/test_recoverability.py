@@ -6,7 +6,7 @@ import platform
 
 
 HOST = '127.0.0.1'
-PORT = 65432
+PORT = 20_000
 server_process = None  # Global variable to keep track of the server process
 
 
