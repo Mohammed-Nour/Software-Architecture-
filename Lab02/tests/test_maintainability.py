@@ -6,8 +6,8 @@ import os
 script_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Construct the absolute paths to the server.py and client.py scripts relative to the script's location
-server_script_path = '/server/server.py'
-client_script_path = '/client/client.py'
+server_script_path = '../server/server.py'
+client_script_path = '../client/client.py'
 
 
 def run_maintainability_tests():

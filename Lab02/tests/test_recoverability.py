@@ -13,8 +13,8 @@ server_process = None  # Global variable to keep track of the server process
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Construct the absolute path to the server script
-server_script_path = './server/server.py'
-client_script_path = './client/client.py'
+server_script_path = '../server/server.py'
+client_script_path = '../client/client.py'
 
 
 def is_server_alive():
