@@ -13,13 +13,17 @@ This project implements a simple Twitter-like system using multiple services, or
 1. **Build and Start the Services**  
    Use the following command to build and start the services:
    ```bash
-   docker-compose up --build
+   sudo docker-compose up --build
    ```
 
 2. **Shut Down the Services**  
    To stop and remove the containers, network, and volumes, use:
    ```bash
-   docker-compose down
+   sudo docker-compose down
+   ```
+3. **If you rebuild the image and and Error occure use this command**
+   ```bash
+   sudo docker system prune
    ```
 
 ## API Endpoints
