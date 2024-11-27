@@ -31,7 +31,7 @@ Enable Two-Factor Authentication (if not already enabled):
  3. install the dependencies 
  4. run the services 
 
-## Tests {#tests}
+<h2 id='tests'>Tests</h2>
 **1. Correct message**
 ```curl -X POST -H "Content-Type: application/json" -d '{"alias": "user1", "text": "This is a valid message!"}' http://127.0.0.1:5000/submit_message```
 - Expected:
