@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  api_service:
+    build:
+      context: ./event-driven/services/api_service
+    ports:
+      - "5000:5000"
+    container_name: api_service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    volumes:
+      - ./logs:/app/logs
+
+  filter_service:
+    build:
+      context: ./event-driven/services/filter_service
+    ports:
+      - "6001:5000"
+    container_name: filter_service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    volumes:
+      - ./logs:/app/logs
+
+  screaming_service:
+    build:
+      context: ./event-driven/services/screaming_service
+    container_name: screaming_service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    volumes:
+      - ./logs:/app/logs
+
+  publish_service:
+    build:
+      context: ./event-driven/services/publish_service
+    container_name: publish_service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    volumes:
+      - ./logs:/app/logs
+      - ./event-driven/services/publish_service/config.ini:/app/config.ini
+
+  pipes_and_filters:
+    build:
+      context: ./pipes-and-filters
+    container_name: pipes_and_filters
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    ports:
+      - "6000:6000"
+
+volumes:
+  rabbitmq_data:
